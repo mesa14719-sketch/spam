@@ -1,71 +1,68 @@
-import requests,os
 
+import os,sys
+import random,string
+from time import sleep
 
 R = '\x1b[38;5;1m'   # أحمر
 M = '\x1b[38;5;244m' # رمادي 
 L = '\x1b[38;5;10m' #اخضر 
 
+print(f"{L}={M}="*30)
 
-server = "https://server-3-mzac.onrender.com"
+print(
+	
+	f"{L}  [1] {R} ==> {L} yopmail.com\n"
+	f"{M}{'='*60}\n"
+	f"{L}  [2] {R} ==> {L} hi2.in\n"
+	f"{M}{'='*60}\n"
+	f"{L}  [3] {R} ==> {L} hotmail.com\n"
+	f"{M}{'='*60}\n"
+	f"{L}  [4] {R} ==> {L} gmail.com\n"
+	f"{M}{'='*60}\n"
+	f"{L}  [5] {R} ==> {L} telegmail.com\n"
+	f"{M}{'='*60}\n"
+	f"{L}  [6] {R} ==> {L} yahoo.com\n"
+	
+)
 
-url = input(f"{L} Enter link :").strip()
-os.system("clear")
+print(f"{L}={M}="*30)
 
-name = input(f"{L} Enter Name :").strip()
-os.system("clear")
+choice =input(f"{L} [{M} Enter choice {L}] >> {M}")
 
-ibra = input(f"{L} Enter user (_.py)  ;").strip()
-os.system("clear")
+if not choice:
+	print(R+"  لازمك تختار الدومين   ")
+	sys.exit()
 
-response = requests.post(f"{server}/upload", json={"name": name, "url": url})
 
-if response.status_code == 200:
-    with open(ibra, 'wb') as f:
-        f.write(response.content)
-    print("✅ تم الرفع")
+if choice == "1":
+	domain = "@yopmail.com"
+elif choice == "2":
+	domain = "@hi2.in"
+elif choice == "3":
+	domain = "@hotmail.com"
+elif choice == "4":
+	domain = "@gmail.com"
+elif choice == "5":
+	domain = "@telegmail.com"
+elif choice == "6":
+	domain = "@yahoo.com"
+
 else:
-    print(f"❌ فشل: {response.text}")
+	print(R+" اختياركك غاللط ❌")
+	sys.exit()
 
-while True:
-	contt += 1
+i = int(input(f"{L}  [ {M} How emails want ? {L}] {L} >>"))	
+		
 
-	url = "https://gw.abgateway.com/student/whatsapp/signup"
-	        
+ibra = "qwertyuioplkjhgfdsamnbvcxz1234567890"
+len = random.randint(2,8)
+
+with open("/storage/emulated/0/Download/domain_email.txt", "w") as f:
+	for _ in range(i):
+		user ="".join(random.choice(ibra) for _ in range(len))
+		email = f"{user}{domain}\n"
+		f.write(email)
 	
 	
+print(f" 'domain_email.txt' تم حفظ في ملف اسمه")
 	
-	headers = {
-	            'User-Agent': str(generate_user_agent()),
-	            'Accept': "application/json",
-	            'Content-Type': "application/json",
-	            'x-trace-id': "guest_user:ec71bc1f-7bf7-490a-b0dc-dad31e7f31d7",
-	            'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-	            'sec-ch-ua-mobile': "?1",
-	            'access-control-allow-origin': "*",
-	            'platform': "web",
-	            'sec-ch-ua-platform': '"Android"',
-	            'origin': "https://abwaab.com",
-	            'sec-fetch-site': "cross-site",
-	            'sec-fetch-mode': "cors",
-	            'sec-fetch-dest': "empty",
-	            'referer': "https://abwaab.com/",
-	            'accept-language': "ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-	            'priority': "u=1, i"
-	        }
-	payload = {
-	            "language": "ar",
-	            "password": "Abc123456",
-	            "phone": ful,
-	            "country": contry,
-	            "country_code": cod,
-	            "platform": "web"
-	        }
-	        
-	response = requests.post(url, data=json.dumps(payload), headers=headers,timeout=5).text
-	
-	if 'sms_otp_code_sent_succ' in response:
-	    OK += 1
-	else:
-	    BAD += 1
-	    
-	print(f"\r {L} success : {OK} | {R} Faild : {BAD} : {ful} ",end="")
