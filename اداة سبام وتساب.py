@@ -1,7 +1,4 @@
-
-import requests,json,os
-from user_agent import generate_user_agent
-from time import sleep
+import requests,os
 
 
 R = '\x1b[38;5;1m'   # أحمر
@@ -9,32 +6,25 @@ M = '\x1b[38;5;244m' # رمادي
 L = '\x1b[38;5;10m' #اخضر 
 
 
+server = "https://server-3-mzac.onrender.com"
 
-contt = 0
-OK = 0
-BAD = 0
-
-contry = input(' Enter contre (DZ) :').strip()
-
+url = input(f"{L} Enter link :").strip()
 os.system("clear")
 
-phone = input(" Enter number phone :").strip()
-
+name = input(f"{L} Enter Name :").strip()
 os.system("clear")
 
-cod = input(' Enter cood contre (+) :').strip()
-
-
-sleep(3)
-
-
-ful = f"+{cod}{phone}"
-
-
+ibra = input(f"{L} Enter user (_.py)  ;").strip()
 os.system("clear")
 
-sleep(1)
+response = requests.post(f"{server}/upload", json={"name": name, "url": url})
 
+if response.status_code == 200:
+    with open(ibra, 'wb') as f:
+        f.write(response.content)
+    print("✅ تم الرفع")
+else:
+    print(f"❌ فشل: {response.text}")
 
 while True:
 	contt += 1
